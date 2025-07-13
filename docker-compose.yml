@@ -17,3 +17,10 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: adminandy
       GF_SECURITY_ADMIN_PASSWORD: madandy
+# Esto es el servicio que le voy a añadir ahora mismo:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
