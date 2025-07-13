@@ -2,6 +2,9 @@
 
 set -e
 
+# Cargar variables de entorno desde .env
+export $(grep -v '^#' .env | xargs)
+
 echo "Creando estructura de directorios..."
 mkdir -p prometheus grafana/provisioning/datasources grafana/provisioning/dashboards
 
@@ -46,7 +49,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
 EOF
 
 echo "Levantando contenedores con 'docker compose up -d'..."
@@ -54,4 +58,4 @@ docker compose up -d
 
 echo "Proyecto levantado exitosamente."
 echo "Accede a Prometheus: http://localhost:9090"
-echo "Accede a Grafana: http://localhost:3000  (user: admin / pass: admin)"
+echo "Accede a Grafana: http://localhost:3000 (credenciales estan en .env)"
